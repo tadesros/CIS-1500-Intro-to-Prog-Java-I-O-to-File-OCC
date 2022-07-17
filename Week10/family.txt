@@ -1,4 +1,0 @@
-eric|29
-tom|34
-jim|34
-new dude|48

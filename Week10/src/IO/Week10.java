@@ -1,12 +1,53 @@
 package IO;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class Week10 {
     //MAIN
-    public static void main(String[] args) {
+     public static void main(String[] args) {
+         //File Name
+         String file = "test.txt";
+         //Add correct extension
+         File fileName = new File(file);
+         //Open File and return a random wishList item
+         String randomWishList = getRandomWishListItem(fileName);
+         //Print out random wish list item
+         System.out.println("Java has a good feeling you'll get ( "+randomWishList+" ) soon!");
+
+
+          /*
+         //Input Scanner
+         Scanner keyboard = new Scanner(System.in);
+         //Array list of Strings to hold wishlist items
+         ArrayList<String> wishList = new ArrayList<String>();
+         //Get Five Wish List Entries
+         for(int itemCount = 1; itemCount<=5;itemCount++)
+         {
+             //Prompt for first wishlist item
+             System.out.println("Enter wishlist item "+ itemCount+" : ");
+             //Get first wishlist item from input stream
+             String wishListItem = keyboard.nextLine();
+             //Write first wishlist item to ArrayList
+             wishList.add(wishListItem);
+         }
+         //Testing - Print out the wishList Array Items
+ */
+          /*  for(String wishListItems: wishList) {
+             System.out.println(wishListItems);
+         }
+
+        */
+         //Have user enter the name of the file to save to (.txt) file
+        /*
+         System.out.println("Enter the name of the file to write to (do not include extension): ");
+         String fileName = keyboard.nextLine();
+         //Add correct extension
+         File file = new File(fileName);
+         //Write to file
+         writeWishListToFile(file,wishList);
+*/
+        /*
         //Input Scanner
         Scanner keyboard = new Scanner(System.in);
         //Prompt main option
@@ -64,13 +105,40 @@ public class Main {
             for(Student student: students){
                 System.out.println(student.getStringForFileOutput());
             }
-
-
-        }
-
+                    }
+         */
     } //End main function
 
-    private static void readFileIntoList(File file, ArrayList<Student> students) {
+    //Methods
+
+    private static String getRandomWishListItem(File fileName){
+        //Array list of Strings to hold wishlist items
+        ArrayList<String> wishList = new ArrayList<String>();
+        //Open the file
+        //Read in values to wishList
+        readWishListFile(fileName,wishList);
+        //Get random number 0 to Four
+        int randomWish = getRandom(5);
+        System.out.println(randomWish);
+        //Set random result
+        String randomWishListItem = "hello";
+
+
+         return randomWishListItem;
+    }
+
+    /*
+     * Java method to return random integer between 0 and
+     * given number. Pay attention to brackets while casting
+     * (int) Math.random*max will return incorrect result.
+     */
+    public static int getRandom(int max){
+        return (int) (Math.random()*max);
+    }
+
+
+    //Read in wishlist from file and write to the wishlist
+    private static void readWishListFile(File file, ArrayList<String> wishList) {
         try {
             //Read the file
             BufferedReader inputFile = new BufferedReader(
@@ -80,8 +148,7 @@ public class Main {
             while (line != null) {
                 //If it is not empty skip writing
                 if (!line.isEmpty()) {
-                   String[] values =  line.split("\\|");
-                    students.add(new Student(values[0],Integer.parseInt(values[1])));
+                    wishList.add(line);
                 }
                 line = inputFile.readLine();
             }
@@ -90,9 +157,34 @@ public class Main {
         } catch (IOException e) {
             System.out.println(e);
         }
-    }
+    }//end read wishList file
 
-    //METHODS
+
+
+
+
+
+
+
+
+
+
+
+    private static void writeWishListToFile(File fileName, ArrayList<String> wishList) {
+        try {
+            //Write a file out - open file - doesn't exist creates a new file
+            PrintWriter fileOutput = new PrintWriter(new BufferedWriter(new FileWriter(fileName + ".txt")));
+            //Write to the file
+            for (String wishListItem: wishList) {
+                fileOutput.println(wishListItem);
+            }
+            //Close the file
+            fileOutput.close();
+        } catch (IOException ex) {
+            //Print out the exception.
+            System.out.println(ex);
+        }
+    }
     private static void addStudentsToList(Scanner keyboard, ArrayList<Student> students) {
         System.out.println("Enter a student name or DONE to be all done: ");
         String name = keyboard.nextLine();
@@ -164,4 +256,26 @@ public class Main {
         }
     }
 
-}//End Main Class
+    private static void readFileIntoList(File file, ArrayList<Student> students) {
+        try {
+            //Read the file
+            BufferedReader inputFile = new BufferedReader(
+                    new FileReader(file));
+            //Read the file
+            String line = inputFile.readLine();
+            while (line != null) {
+                //If it is not empty skip writing
+                if (!line.isEmpty()) {
+                    String[] values =  line.split("\\|");
+                    students.add(new Student(values[0],Integer.parseInt(values[1])));
+                }
+                line = inputFile.readLine();
+            }
+            //Close the file
+            inputFile.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
+}//End Week10 Class
