@@ -6,16 +6,34 @@ import java.util.Scanner;
 public class Week10 {
     //MAIN
      public static void main(String[] args) {
-         //File Name
-         String file = "test.txt";
-         //Add correct extension
+
+         //Create File
+         try {
+             PrintWriter fileOutput = new PrintWriter(
+                     new BufferedWriter(
+                             new FileWriter("kendallswishlist.txt")
+                     )
+             );
+             fileOutput.println("1. A dog");
+             fileOutput.println("2. A rice cooker");
+             fileOutput.println("3. New heels");
+             fileOutput.println("4. Water sleeping mask");
+             fileOutput.println("5. A car");
+
+             fileOutput.close();
+
+         } catch (IOException ex) {
+             System.out.println(ex);
+         }
+         //***New Code to get random wish list item and display**
+         //Set file name
+         String file = "kendallswishlist.txt";
+         //Create file object
          File fileName = new File(file);
-         //Open File and return a random wishList item
+         //Open File and return a random WishList item
          String randomWishList = getRandomWishListItem(fileName);
          //Print out random wish list item
          System.out.println("Java has a good feeling you'll get ( "+randomWishList+" ) soon!");
-
-
           /*
          //Input Scanner
          Scanner keyboard = new Scanner(System.in);
@@ -109,8 +127,8 @@ public class Week10 {
          */
     } //End main function
 
-    //Methods
-
+    //Java - Methods -
+    //Open the given File read in Values and then return a random value
     private static String getRandomWishListItem(File fileName){
         //Array list of Strings to hold wishlist items
         ArrayList<String> wishList = new ArrayList<String>();
@@ -118,25 +136,13 @@ public class Week10 {
         //Read in values to wishList
         readWishListFile(fileName,wishList);
         //Get random number 0 to Four
-        int randomWish = getRandom(5);
+        int randomWish = getRandomInteger(5);
         System.out.println(randomWish);
         //Set random result
-        String randomWishListItem = "hello";
-
-
-         return randomWishListItem;
+        String randomWishListItem = wishList.get(randomWish);
+        //Return random wish
+        return randomWishListItem;
     }
-
-    /*
-     * Java method to return random integer between 0 and
-     * given number. Pay attention to brackets while casting
-     * (int) Math.random*max will return incorrect result.
-     */
-    public static int getRandom(int max){
-        return (int) (Math.random()*max);
-    }
-
-
     //Read in wishlist from file and write to the wishlist
     private static void readWishListFile(File file, ArrayList<String> wishList) {
         try {
@@ -158,10 +164,10 @@ public class Week10 {
             System.out.println(e);
         }
     }//end read wishList file
-
-
-
-
+    //Return random number from 0 to maxValue
+    public static int getRandomInteger(int maxValue){
+        return (int) (Math.random()*maxValue);
+    }
 
 
 
